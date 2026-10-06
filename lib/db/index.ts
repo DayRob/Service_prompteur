@@ -6,10 +6,10 @@ type Db = ReturnType<typeof drizzle>;
 
 const globalForDb = globalThis as unknown as { __db?: Db };
 
-/** Client Drizzle unique par processus. `prepare: false` est requis par le pooler Supabase en mode transaction. */
+/** Client Drizzle unique par processus. */
 export function getDb(): Db {
   if (!globalForDb.__db) {
-    const client = postgres(getEnv().DATABASE_URL, { prepare: false, max: 5 });
+    const client = postgres(getEnv().DATABASE_URL, { max: 5 });
     globalForDb.__db = drizzle(client);
   }
   return globalForDb.__db;

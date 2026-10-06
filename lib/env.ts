@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const schema = z.object({
-  APP_PASSWORD: z.string().min(8, "APP_PASSWORD doit faire au moins 8 caractères"),
+  APP_PASSWORD: z.string().min(12, "APP_PASSWORD doit faire au moins 12 caractères"),
   SESSION_SECRET: z.string().min(32, "SESSION_SECRET doit faire au moins 32 caractères"),
   DATABASE_URL: z.string().min(1),
   ANTHROPIC_API_KEY: z.string().min(1),
