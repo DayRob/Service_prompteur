@@ -35,6 +35,27 @@ L'app tourne sur http://localhost:3000.
 | `ANTHROPIC_MODEL` | Modèle utilisé, `claude-sonnet-5-5` par défaut |
 | `PROMPT_LANGUAGE` | Langue des prompts générés, `fr` par défaut |
 
+## Authentification
+
+Un seul utilisateur. Le mot de passe est `APP_PASSWORD`. La session est un cookie httpOnly signé, valable 30 jours,
+invalidé en changeant `SESSION_SECRET`. Après 5 échecs en 15 minutes depuis une même adresse, ou 20 échecs au total,
+la connexion est bloquée. Chaque tentative est inscrite dans la table `audit_log`.
+
+En production le site doit être servi en HTTPS : le cookie porte l'attribut Secure et le préfixe `__Host-`.
+Pour tester en http hors localhost, mettre `COOKIE_SECURE=false`.
+
+## Tests
+
+```bash
+TEST_DATABASE_URL=postgresql://forge:forge@localhost:5432/forge npm test
+```
+
+Sans `TEST_DATABASE_URL`, les tests qui ont besoin de Postgres sont ignorés.
+
+## Icônes PWA
+
+Les icônes de `public/icons/` sont générées depuis `assets/icon.svg` avec `node scripts/generate-icons.mjs`.
+
 ## Scripts
 
 `npm run dev`, `build`, `lint`, `typecheck`, `test`, `db:generate`, `db:migrate`.

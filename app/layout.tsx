@@ -1,29 +1,33 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Idea Forge",
+  title: { default: "Idea Forge", template: "%s · Idea Forge" },
   description: "De l'idée brute au prompt Claude Code",
+  applicationName: "Idea Forge",
+  appleWebApp: { capable: true, title: "Idea Forge", statusBarStyle: "black-translucent" },
+  icons: { apple: "/icons/apple-touch-icon.png" },
+  robots: { index: false, follow: false },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="fr" className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }
